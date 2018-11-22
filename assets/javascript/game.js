@@ -54,6 +54,17 @@ window.onload = function() {
         perfectDate.connectionId = $("#connId-input").val();
         $("#btn-connect").attr("style", "pointer-events: none; opacity: 0.4;");
         createPlayer();
+
+        var template_params = {
+          "guest_email": "mary.arzumanyan@gmail.com",
+          "guest_name": perfectDate.myName,
+          "inviter_name": perfectDate.myName,
+          "connection_key": perfectDate.connectionId
+       }
+       
+       var service_id = "gmail";
+       var template_id = "perfect_date_invitation";
+       emailjs.send(service_id,template_id,template_params);
     });
 
 }
