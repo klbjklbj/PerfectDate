@@ -76,7 +76,7 @@ window.onload = function() {
        var service_id = "gmail";
        var template_id = "perfect_date_invitation";
        // !!! KEEP DISABLED to avoid reaching sent email quota !!!
-       emailjs.send(service_id,template_id,template_params);
+       // emailjs.send(service_id,template_id,template_params);
 
        $("#add-conn-link").text("Invite has been sent. Please save and use the following link to add your preferences");
        $("#link-pref").attr("href", "pickYourPlace.html?connkey=" + perfectDate.connectionId + "&userid=" + perfectDate.hostID);
