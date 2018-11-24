@@ -15,6 +15,7 @@
     <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.2.4/email.min.js"></script>
     <script type="text/javascript" src="https://momentjs.com/downloads/moment.js"></script>
     <script type="text/javascript" src="js/perfectDate.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript">
        (function(){
           emailjs.init("user_ncSoZwcgwo8T17qAT70xs");
@@ -38,8 +39,8 @@
                         <!-- Info Form -->
                         <form>
                             <div class="form-group">
-                                <label>Your Name</label>
-                                <input class="form-control" id="name" placeholder="Name" type="text">
+                                <label for="name-input">Your Name</label>
+                                <input class="form-control" id="name-input" placeholder="Name" type="text">
                             </div>
                             <div class="form-group">
                                 <label for="guest-name-input">Guest name</label>
@@ -50,16 +51,18 @@
                                 <input class="form-control" id="guest-email-input" placeholder="email" type="text">
                                 </div>
                             <div class="form-group">
-                                <label>Where would you like to have yout date at?</label>
+                                <label for="location-input">Where would you like to have yout date at?</label>
                                 <input class="form-control" id="location-input" placeholder="City" type="text">
                             </div>
                             <div class="form-group">
-                                <label>Date</label>
-                                <input class="form-control" id="date" placeholder="MM/DD/YYYY" type="date">
+                                <label for="date-input">Date</label>
+                                <input class="form-control" id="date-input" placeholder="MM/DD/YYYY" type="date">
                             </div>
-                            <p><span id=add-conn-link></span></p>
-
-                            <a href="pickYourPlace.html" class="submitName btn float-right bg-info text-white" role="button">Submit</a>
+                            <p>
+                                <span id="add-conn-link"></span>
+                                <a id="link-pref" rel="stylesheet" href=""></a>
+                            </p>
+                            <button class="submitName btn float-right bg-info text-white" id="invite">Invite</button>
                         </form>
                     </div>
                 </div>
