@@ -8,18 +8,19 @@
     <link type="text/css" rel="stylesheet" media="screen" href="css/reset.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link type="text/css" rel="stylesheet" media="screen" href="css/style-page1.css" />
-    
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <link type="text/css" rel="stylesheet" media="screen" href="css/style.css" />
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+        crossorigin="anonymous"></script>
     <script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
     <script type="text/javascript" src="https://cdn.emailjs.com/sdk/2.2.4/email.min.js"></script>
     <script type="text/javascript" src="https://momentjs.com/downloads/moment.js"></script>
     <script type="text/javascript" src="js/perfectDate.js"></script>
     <script type="text/javascript" src="js/login.js"></script>
     <script type="text/javascript">
-       (function(){
-          emailjs.init("user_ncSoZwcgwo8T17qAT70xs");
-       })();
+        (function () {
+            emailjs.init("user_ncSoZwcgwo8T17qAT70xs");
+        })();
     </script>
     <title>Perfect Date</title>
 </head>
@@ -49,7 +50,7 @@
                             <div class="form-group">
                                 <label for="guest-email-input">Guest email</label>
                                 <input class="form-control" id="guest-email-input" placeholder="email" type="text">
-                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="location-input">Where would you like to have yout date at?</label>
                                 <input class="form-control" id="location-input" placeholder="City" type="text">
@@ -62,7 +63,7 @@
                                 <span id="add-conn-link"></span>
                                 <a id="link-pref" rel="stylesheet" href=""></a>
                             </p>
-                            <button class="submitName btn float-right bg-info text-white" id="invite">Invite</button>
+                            <a href="pickYourPlace.html" class="submitName btn float-right bg-info text-white" role="button">Submit</a>
                         </form>
                     </div>
                 </div>
@@ -70,4 +71,5 @@
         </div>
     </div>
 </body>
+
 </html>

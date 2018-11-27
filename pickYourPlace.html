@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="css/reset.css" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/style-page2.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
     <title>Pick you place</title>
 </head>
 
@@ -24,62 +24,22 @@
                     <div class="card-body">
                         <form>
                             <div class="form-group font-weight-bold">
-                                <label>Place type:
-                                    <br>
+                                <label id="placeType">Place type: <br>
                                     <select id="foodPlace">
-                                        <option value="">Select one</option>
+                                        <option value="selectOne">Select one</option>
                                         <option value="restaurant">Restaurant</option>
                                         <option value="sport bar">Sport Bar</option>
                                         <option value="fast food">Fast Food</option>
                                         <option value="coffee house">Coffee House</option>
                                         <option value="bakery">Bakery</option>
-                                        <option value="">Other</option>
+                                        <option value="other">Other</option>
                                     </select>
                                 </label>
-                                <br>
-                                <label>If you selected other, please add your choice here:</label>
-                                <input type="text" class="form-control" id="otherFoodPlace">
-                                <br>
-                                <label>Food type (for restaurant only):
-                                    <br>
-                                    <select id="restaurant">
-                                        <option value="">Other</option>
-                                        <option value="barbecue">Barbecue</option>
-                                        <option value="chinese">Chinese</option>
-                                        <option value="greek">Greek</option>
-                                        <option value="italian">Italian</option>
-                                        <option value="indian">Indian</option>
-                                        <option value="mexican">Mexican</option>
-                                        <option value="pizza">Pizza</option>
-                                        <option value="seafood">Seafood</option>
-                                        <option value="steakhouse">Steakhouse</option>
-                                        <option value="vegetarian">Vegetarian</option>
-                                    </select>
-                                </label>
-                                <br>
-                                <label>If you selected other, please add your food choice here:</label>
-                                <input type="text" class="form-control" id="otherRestaurant">
-                                <br>
-                                <label>Price range Min:
-                                    <br>
-                                    <select id="priceMin">
-                                        <option value="1">Inexpensive</option>
-                                        <option value="2">Moderate</option>
-                                        <option value="3">Expensive</option>
-                                        <option value="4">Very Expensive</option>
-                                    </select>
-                                </label>
-                                <label>Price range Max:
-                                    <br>
-                                    <select id="priceMax">
-                                        <option value="1">Inexpensive</option>
-                                        <option value="2">Moderate</option>
-                                        <option value="3">Expensive</option>
-                                        <option value="4">Very Expensive</option>
-                                    </select>
-                                </label>
+
                             </div>
-                            <button type="submit" class="btn btn-info font-weight-bold" id="submit-food">Submit</button>
+                            <div class="moreOptions font-weight-bold"></div>
+                            <br>
+                            <button type="submit" class="btn submitSelection btn-info font-weight-bold">Submit</button>
                         </form>
                     </div>
                 </div>
@@ -167,5 +127,6 @@
         alert("ConnectionID: " + getUrlParameter('connkey') + "; UserID: " + getUrlParameter('userid'));
     </script>
 </body>
+
 
 </html>
