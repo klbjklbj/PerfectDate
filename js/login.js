@@ -61,7 +61,7 @@ window.onload = function() {
         perfectDate.guestEmail = $("#guest-email-input").val();
         perfectDate.location = $("#location-input").val();
         perfectDate.date = $("#date-input").val();
-        $("#invite").attr("style", "pointer-events: none; opacity: 0.4;");
+        $(".invite").attr("style", "pointer-events: none; opacity: 0.4;");
         buildDB();
 
         var template_params = {
