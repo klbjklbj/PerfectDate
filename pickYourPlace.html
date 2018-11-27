@@ -18,7 +18,7 @@
             <h1>Make Your Choice!</h1>
         </div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4 mt-2">
                 <div class="card border border-info">
                     <div class="card-header bg-info text-white font-weight-bold">Restaurant Preferences</div>
                     <div class="card-body">
@@ -35,97 +35,106 @@
                                         <option value="other">Other</option>
                                     </select>
                                 </label>
-
                             </div>
                             <div class="moreOptions font-weight-bold"></div>
-                            <br>
-                            <button type="submit" class="btn submitSelection btn-info font-weight-bold">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5 mt-2">
                 <div class="card border border-info">
-                    <div class="card-header bg-info text-white font-weight-bold addTrain">Find Event</div>
+                    <div class="card-header bg-info text-white font-weight-bold addTrain">Event Preferences</div>
                     <div class="card-body">
                         <form>
                             <div class="form-group font-weight-bold">
-                                <label>Event type:
+                                <label>Event category:
                                     <br>
                                     <select id="eventType">
                                         <option value="">Select one</option>
-                                        <option value="restaurant">Music</option>
-                                        <option value="sport bar">Sport</option>
-                                        <option value="fast food">Activity</option>
-                                        <option value="coffee house">Art</option>
-                                        <option value="bakery">Dance</option>
+                                        <option value="103">Music</option>
+                                        <option value="105">Performing & Visual Arts</option>
+                                        <option value="108">Sports & Fitness</option>
+                                        <option value="110">Food & Drink Events</option>
+                                        <option value="113">Community & Culture</option>
+                                        <option value="116">Seasonal & Holiday</option>
                                         <option value="">Other</option>
                                     </select>
                                 </label>
                                 <br>
                                 <label>If you selected other, please add your choice here:</label>
-                                <input type="text" class="form-control" id="otherFoodPlace">
+                                <input type="text" class="form-control" id="otherCategory">
                                 <br>
-                                <label>Please specify more:
+                                <label>Please specify event type:
                                     <br>
                                     <select id="subcategory">
                                         <option value="">Other</option>
-                                        <option value="Subcategory-1">Subcategory-1</option>
-                                        <option value="Subcategory-2">Subcategory-2</option>
-                                        <option value="Subcategory-3">Subcategory-3</option>
+                                        <option value="5">Festival or Fair</option>
+                                        <option value="6">Concert or Performance</option>
+                                        <option value="8">Dinner or Gala</option>
+                                        <option value="11">Party or Social Gathering</option>
+                                        <option value="14">Game or Competition</option>
                                     </select>
                                 </label>
                                 <br>
                                 <label>If you selected other, please add your choice here:</label>
                                 <input type="text" class="form-control" id="otherSubcategory">
                                 <br>
-                                <label>Price range Min:
-                                    <br>
-                                    <select id="priceMin">
-                                        <option value="1">Inexpensive</option>
-                                        <option value="2">Moderate</option>
-                                        <option value="3">Expensive</option>
-                                        <option value="4">Very Expensive</option>
-                                    </select>
-                                </label>
-                                <label>Price range Max:
-                                    <br>
-                                    <select id="priceMax">
-                                        <option value="1">Inexpensive</option>
-                                        <option value="2">Moderate</option>
-                                        <option value="3">Expensive</option>
-                                        <option value="4">Very Expensive</option>
-                                    </select>
-                                </label>
+
+                                <label>Would you like to search for free or paid events?</label><br>
+                                <div class="form-check form-check-inline">
+
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioFree"
+                                        value="free">
+                                    <label class="form-check-label font-weight-normal" for="inlineRadio1">Free</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioPaid"
+                                        value="paid">
+                                    <label class="form-check-label font-weight-normal" for="inlineRadio2">Paid</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadioFreeOrPaid"
+                                        value="">
+                                    <label class="form-check-label font-weight-normal" for="inlineRadio3">Both Free and
+                                        Paid</label>
+                                </div>
                             </div>
-                            <button type="submit" class="btn btn-info font-weight-bold" id="submit-event">Submit</button>
                         </form>
                     </div>
                 </div>
             </div>
+            <div class="col-md-3 mt-2">
+                <div class="card border border-info">
+                    <div class="card-header bg-info text-white font-weight-bold addTrain">Next</div>
+                    <div class="card-body text-center">
+                        <p>Placeholder text </p>
+                        <button type="submit" class="btn submitSelection btn-info font-weight-bold">Submit</button>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-        crossorigin="anonymous"></script>
-    <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
-    <script src="https://momentjs.com/downloads/moment.js"></script>
-    <script src="js/perfectDate.js"></script>
-    <script>
-        var getUrlParameter = function getUrlParameter(sParam) {
-            var sPageURL = window.location.search.substring(1),
-                sURLVariables = sPageURL.split('&'),
-                sParameterName,
-                i;
-            for (i = 0; i < sURLVariables.length; i++) {
-                sParameterName = sURLVariables[i].split('=');
-                if (sParameterName[0] === sParam) {
-                    return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+        <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+            crossorigin="anonymous"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+        <script src="https://momentjs.com/downloads/moment.js"></script>
+        <script src="js/perfectDate.js"></script>
+        <script src="js/events.js"></script>
+        <script>
+            var getUrlParameter = function getUrlParameter(sParam) {
+                var sPageURL = window.location.search.substring(1),
+                    sURLVariables = sPageURL.split('&'),
+                    sParameterName,
+                    i;
+                for (i = 0; i < sURLVariables.length; i++) {
+                    sParameterName = sURLVariables[i].split('=');
+                    if (sParameterName[0] === sParam) {
+                        return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+                    }
                 }
-            }
-        };
-        
-        alert("ConnectionID: " + getUrlParameter('connkey') + "; UserID: " + getUrlParameter('userid'));
-    </script>
+            };
+
+            alert("ConnectionID: " + getUrlParameter('connkey') + "; UserID: " + getUrlParameter('userid'));
+        </script>
 </body>
 
 

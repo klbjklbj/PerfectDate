@@ -65,7 +65,7 @@ $(".submitName").on("click", function () {
 });
 
 //Make an AJAX call to google API wiht user's input to receive Response
-$("#submit-food").on("click", function () {
+$(".submitSelection").on("click", function () {
     if ($("#foodPlace").val() === "selectOne") {
         event.preventDefault();
     }
@@ -84,7 +84,7 @@ $("#submit-food").on("click", function () {
             console.log(queryURL);
         })
     }
-    else if ($("#foodPlace").val() === "other") {
+    else if ($(".submitSelection").val() === "other") {
         event.preventDefault();
         var place = localStorage.getItem(place)
         var query = $("#otherFoodPlace").val() + " " + "in " + place;
