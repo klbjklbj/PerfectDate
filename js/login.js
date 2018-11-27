@@ -54,7 +54,7 @@ function guid() {
 
 window.onload = function() {
 
-     $("#invite").on("click", function(){
+     $("inviteButton").on("click", function(){
         event.preventDefault();
         perfectDate.myName = $("#name-input").val();
         perfectDate.guestName = $("#guest-name-input").val();
