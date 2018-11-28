@@ -85,7 +85,7 @@ window.onload = function () {
     });
 }
 
-//Make an AJAX call to google API wiht user's input to receive Response
+//Make an AJAX call to google API with user's input to receive Response
 $(document).ready(function () {
     $(".submitSelection").on("click", function () {
         event.preventDefault();
@@ -139,7 +139,7 @@ $(document).ready(function () {
                 method: "GET",
             }).then(function (response) {
                 console.log(queryURL);
-                // push querryURL to Firebase
+                // push queryURL to Firebase
             });
         };
 
@@ -149,18 +149,17 @@ $(document).ready(function () {
         // replace with FB
         var date1 = date + "T00:00:00";
         var date2 = date + "T23:59:59";
-        // Right now start_date.keyword ("tomorrow") is used. Keyword options are “this_week”, “next_week”, “this_weekend”, “next_month”, “this_month”, “tomorrow”, “today”. This can be changed to actual date or date range.
 
-        var token = '5E76NLXTIQ7IVJFI3SNJ';
+        var token = '5E76NLXTIQ7IVJFI3SNJ'; //Eventbrite API Key
 
         var eventType = $("#eventType").val();
 
         var otherKeywords = $("#otherKeywords").val(); //otherKeywords is a string for the "q" parameter
 
         var price = $("input[name=inlineRadioOptions]:checked").val();
-        //  results for price are either "free" or "paid". looks like we can't do price range.
+        //  results for price are either "free" or "paid"...looks like we can't do price range or else it could limit options unnecessarily
 
-        var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=" + token + "&q=" + otherKeywords + "&location.address=" + place + "&start_date.range_start=" + date1 + "&start_date.range_end=" + date2 + "&categories=" + eventType + "&price=" + price;
+        var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=" + token + "&q=" + otherKeywords + "&location.address=" + place + "&start_date.range_start=" + date1 + "&start_date.range_end=" + date2 + "&categories=" + eventType + "&price=" + price + "&expand=venue"; //added venue expansion
 
         $.ajax({
             url: queryURL,
@@ -168,7 +167,31 @@ $(document).ready(function () {
         }).then(function (response) {
             console.log(response);
             console.log(queryURL);
-            // push querryURL push
+            // push queryURL 
+
+            for (let i = 0; i < response.events.length; i++) {
+                var event = response.events[i];
+
+                var eventName = event.name.html
+                var eventUrl = event.url;
+                var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
+                var venueName = event.venue.name;
+                var venueCity = event.venue.address.city;
+
+                var spaces = "&nbsp;&nbsp;"
+
+                console.log(eventName);
+                console.log(eventUrl);
+                console.log(eventTime);
+                console.log(venueName);
+                console.log(venueCity);
+
+                // BELOW IS AN EXAMPLE FOR RESULTS PAGE
+                // var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
+                // console.log(eventListing);
+
+                // $("--REPLACE WITH EVENTS RESULTS DIV OR SECTION ID--"").append(eventListing);
+            }
         })
     });
 });
