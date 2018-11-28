@@ -1,4 +1,32 @@
-// Select Restaurant 
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyDwU1FB_6fGRqgpaMrYv6enaYaB1rhX1PU",
+    authDomain: "perfect-date-b7ea3.firebaseapp.com",
+    databaseURL: "https://perfect-date-b7ea3.firebaseio.com",
+    projectId: "perfect-date-b7ea3",
+    storageBucket: "perfect-date-b7ea3.appspot.com",
+    messagingSenderId: "852010734268"
+  };
+  firebase.initializeApp(config);
+  var db = firebase.database();
+  
+
+  var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+    };
+    
+    var dataref = "couples/" + getUrlParameter('connkey');
+
+// Select Restaurant
 $("#foodPlace").change(function () {
     if ($(this).val() === "restaurant") {
         $(".moreOptions").empty();
@@ -46,15 +74,30 @@ $("#foodPlace").change(function () {
 });
 
 
+var place = "";
+var date = "";
+
+window.onload = function () {
+    db.ref(dataref + "/location").once("value", function(snapshot){
+        place = snapshot.val();
+    });
+
+    db.ref(dataref + "/date").once("value", function(snapshot){
+        date = snapshot.val();
+    });
+}
+
 //Make an AJAX call to google API wiht user's input to receive Response
 $(".submitSelection").on("click", function () {
+    event.preventDefault();
+   
     if ($("#foodPlace").val() === "selectOne") {
         event.preventDefault();
     }
 
     else if ($("#foodPlace").val() === "restaurant") {
         event.preventDefault();
-        //var place = localStorage.getItem("place")
+    
         var query = $("#foodPlace").val() + " " + $("#restaurant").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
         var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
         var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
@@ -69,7 +112,7 @@ $(".submitSelection").on("click", function () {
     }
     else if ($(".submitSelection").val() === "other") {
         event.preventDefault();
-        var place = localStorage.getItem(place)
+        //var place = localStorage.getItem(place)
         var query = $("#otherFoodPlace").val() + " " + "in " + place;
         var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
         var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
@@ -85,7 +128,7 @@ $(".submitSelection").on("click", function () {
     }
     else {
         event.preventDefault();
-        var place = localStorage.getItem("place")
+        //var place = localStorage.getItem("place")
         var query = $("#foodPlace").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
         var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
         var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;

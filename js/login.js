@@ -88,7 +88,7 @@ window.onload = function () {
       $("#add-conn-link").text("Invite has been sent. Please save and use the following link to add your");
       $("#link-pref").attr("href", "pickYourPlace.html?connkey=" + perfectDate.connectionId + "&userid=" + perfectDate.hostID);
       $("#link-pref").text("Preferences for a Perfect Date");
-      console.log (perfectDate);
+      console.log(perfectDate);
     }
 
   });

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" media="screen" href="css/style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Charmonman|Srisakdi" rel="stylesheet">
     <title>Pick you place</title>
 </head>
 
@@ -61,10 +62,10 @@
                                     </select>
                                 </label>
                                 <br>
-                                <label>If you selected other, please add your choice here:</label>
-                                <input type="text" class="form-control" id="otherCategory">
+                                <label>Any other keywords to search?</label>
+                                <input type="text" class="form-control" id="otherKeywords">
                                 <br>
-                                <label>Please specify event type:
+                                <!-- <label>Please specify event type:
                                     <br>
                                     <select id="subcategory">
                                         <option value="">Other</option>
@@ -77,7 +78,7 @@
                                 </label>
                                 <br>
                                 <label>If you selected other, please add your choice here:</label>
-                                <input type="text" class="form-control" id="otherSubcategory">
+                                <input type="text" class="form-control" id="otherSubcategory"> -->
                                 <br>
 
                                 <label>Would you like to search for free or paid events?</label><br>
@@ -108,19 +109,17 @@
                     <div class="card-header bg-info text-white font-weight-bold addTrain">Next</div>
                     <div class="card-body text-center">
                         <p>Placeholder text </p>
-                        <button type="submit" class="btn submitSelection btn-info font-weight-bold">Submit</button>
+                        <button type="submit" class="btn submitSelection btn-info font-weight-bold" id="submitSelection">Submit</button>
                     </div>
                 </div>
             </div>
         </div>
         <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
             crossorigin="anonymous"></script>
-        <script src="https://www.gstatic.com/firebasejs/5.5.8/firebase.js"></script>
+        <script type="text/javascript" src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
         <script src="https://momentjs.com/downloads/moment.js"></script>
         <script src="js/perfectDate.js"></script>
         <script src="js/events.js"></script>
-        
 </body>
-
 
 </html>
