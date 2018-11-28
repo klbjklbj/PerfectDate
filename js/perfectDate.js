@@ -147,8 +147,8 @@ $(document).ready(function () {
         event.preventDefault();
 
         // replace with FB
-        var date1 = "2018-12-12T00:00:00";
-        var date2 = "2019-12-31T23:59:59";
+        var date1 = date + "T00:00:00";
+        var date2 = date + "T23:59:59";
         // Right now start_date.keyword ("tomorrow") is used. Keyword options are “this_week”, “next_week”, “this_weekend”, “next_month”, “this_month”, “tomorrow”, “today”. This can be changed to actual date or date range.
 
         var token = '5E76NLXTIQ7IVJFI3SNJ';
