@@ -46,24 +46,6 @@ $("#foodPlace").change(function () {
 });
 
 
-// Grab user input from Page one and save it in localStorage. 
-//After we initializise Firebase we'll need to keep this data in Firebase instead of localStorage
-$(".submitName").on("click", function () {
-    var name = $("#name").val();
-    var place = $("#location-input").val();
-    var date = $("#date").val();
-
-    if (name === "" || place === "" || date === "") {
-        event.preventDefault()
-    }
-    else {
-        localStorage.clear();
-        localStorage.setItem("name", JSON.stringify(name));
-        localStorage.setItem("place", JSON.stringify(place));
-        localStorage.setItem("date", JSON.stringify(date));
-    }
-});
-
 //Make an AJAX call to google API wiht user's input to receive Response
 $(".submitSelection").on("click", function () {
     if ($("#foodPlace").val() === "selectOne") {
@@ -72,7 +54,7 @@ $(".submitSelection").on("click", function () {
 
     else if ($("#foodPlace").val() === "restaurant") {
         event.preventDefault();
-        var place = localStorage.getItem("place")
+        //var place = localStorage.getItem("place")
         var query = $("#foodPlace").val() + " " + $("#restaurant").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
         var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
         var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
@@ -82,6 +64,7 @@ $(".submitSelection").on("click", function () {
             method: "GET",
         }).then(function (response) {
             console.log(queryURL);
+            // push querryURL to Firebase
         })
     }
     else if ($(".submitSelection").val() === "other") {
@@ -90,12 +73,14 @@ $(".submitSelection").on("click", function () {
         var query = $("#otherFoodPlace").val() + " " + "in " + place;
         var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
         var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
+        
 
         $.ajax({
             url: queryURL,
             method: "GET",
         }).then(function (response) {
             console.log(queryURL);
+            // push querryURL to Firebase
         });
     }
     else {
@@ -104,12 +89,21 @@ $(".submitSelection").on("click", function () {
         var query = $("#foodPlace").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
         var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
         var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
+        
 
         $.ajax({
             url: queryURL,
             method: "GET",
         }).then(function (response) {
             console.log(queryURL);
+            // push querryURL to Firebase
         });   
     }
 });
+
+
+// when both users complete forms (use window.onload)
+    // run response 
+    // pull place ids
+    // compare place id
+    // show result 

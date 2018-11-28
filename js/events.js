@@ -4,10 +4,13 @@ $(".submitSelection").on("click", function () {
 
     //Results currently set to max of 50
 
+    // replace with reference from Firebase
     var place = "seattle";
+
     // This variable to be put in the queryURL...For example, "seattle"  in this part of queryURL..."&location.address=seattle" ...Zip codes and addresses work too.
 
-    var date = "tomorrow";
+    // replace with FB
+    var date = "next_week";
     // Right now start_date.keyword ("tomorrow") is used. Keyword options are “this_week”, “next_week”, “this_weekend”, “next_month”, “this_month”, “tomorrow”, “today”. This can be changed to actual date or date range.
 
     var token = '5E76NLXTIQ7IVJFI3SNJ';
@@ -39,5 +42,6 @@ $(".submitSelection").on("click", function () {
     }).then(function (response) {
         console.log(response);
         console.log(queryURL);
+        // push querryURL push
     })
 });
