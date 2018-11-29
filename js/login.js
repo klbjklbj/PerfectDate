@@ -77,16 +77,17 @@ window.onload = function () {
         "inviter_name": perfectDate.myName,
         "date": perfectDate.date,
         "connection_key": perfectDate.connectionId,
-        "guest_id": perfectDate.guestID
+        "guest_id": perfectDate.guestID,
+        "friend_id": perfectDate.hostID
       };
 
       var service_id = "gmail";
       var template_id = "perfect_date_invitation";
       // !!! KEEP DISABLED to avoid reaching sent email quota !!!
-      // emailjs.send(service_id,template_id,template_params);
+      // emailjs.send(service_id, template_id, template_params);
 
       $("#add-conn-link").text("Invite has been sent. Please save and use the following link to add your");
-      $("#link-pref").attr("href", "pickYourPlace.html?connkey=" + perfectDate.connectionId + "&userid=" + perfectDate.hostID);
+      $("#link-pref").attr("href", "pickYourPlace.html?connkey=" + perfectDate.connectionId + "&userid=" + perfectDate.hostID + "&friendid=" + perfectDate.guestID);
       $("#link-pref").text("Preferences for a Perfect Date");
       console.log(perfectDate);
     }

@@ -25,6 +25,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 };
 
 var dataref = "couples/" + getUrlParameter('connkey');
+var datarefURLs = "couples/" + getUrlParameter('connkey') + "/" + getUrlParameter('userid');
 
 // Select Restaurant
 $("#foodPlace").change(function () {
@@ -85,66 +86,46 @@ window.onload = function () {
     db.ref(dataref + "/date").once("value", function (snapshot) {
         date = snapshot.val();
     });
+
+    ///////////// if Preferences are submited i.e. (status = 1) redirect to results page
+    db.ref(datarefURLs + "/status").once("value", function (snapshot) {
+        if( snapshot.val() === 1 )
+        {
+            window.location.href = "resultPage.html?connkey=" + getUrlParameter('connkey') + "&userid=" + getUrlParameter('userid') + "&friendid=" + getUrlParameter('friendid');
+        }
+    });
+    
 }
 
 //Make an AJAX call to google API with user's input to receive Response
 $(document).ready(function () {
-    $(".submitSelection").on("click", function () {
+     $(".submitSelection").on("click", function () {
         event.preventDefault();
 
         // Google places API call
         if ($("#foodPlace").val() === "selectOne" || $("#eventType").val() === "") {
             event.preventDefault();
         }
-
         else if ($("#foodPlace").val() === "restaurant" && $("#restaurant").val() !== "") {
             event.preventDefault();
 
             var query = $("#foodPlace").val() + " " + $("#restaurant").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
-            var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
-            var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
-            // push querryURL to Firebase
-
-            $.ajax({
-                url: queryURL,
-                method: "GET",
-            }).then(function (response) {
-                console.log(queryURL);
-
-
-            })
         }
         else if ($(".submitSelection").val() === "other") {
             event.preventDefault();
             //var place = localStorage.getItem(place)
             var query = $("#otherFoodPlace").val() + " " + "in " + place;
-            var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
-            var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
-            // push querryURL to Firebase
-
-            $.ajax({
-                url: queryURL,
-                method: "GET",
-            }).then(function (response) {
-                console.log(queryURL);
-
-            });
         }
         else {
             event.preventDefault();
             //var place = localStorage.getItem("place")
             var query = $("#foodPlace").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
-            var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
-            var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
-            // push queryURL to Firebase
+        }
 
-            $.ajax({
-                url: queryURL,
-                method: "GET",
-            }).then(function (response) {
-                //console.log(queryURL);               
-            });
-        };
+        //////////////// Adding Restaurant URL to DB
+        var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
+        var googleQueryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
+        db.ref(datarefURLs).child("Restaurant_queryURL").set(googleQueryURL);
 
         // Eventbrite API call
         var eventType = $("#eventType").val();
@@ -155,41 +136,20 @@ $(document).ready(function () {
         var date2 = date + "T23:59:59";
         var token = '5E76NLXTIQ7IVJFI3SNJ'; //Eventbrite API Key
 
+        var price = $("input[name=inlineRadioOptions]:checked").val();
+        //  results for price are either "free" or "paid"...looks like we can't do price range or else it could limit options unnecessarily
+
         if (eventType !== "" && $("#foodPlace").val() !== "selectOne") {
-            var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=" + token + "&q=" + otherKeywords + "&location.address=" + place + "&start_date.range_start=" + date1 + "&start_date.range_end=" + date2 + "&categories=" + eventType + "&price=" + price + "&expand=venue"; //added venue expansion
-            // push queryURL to Firebase
-            $.ajax({
-                url: queryURL,
-                method: "GET",
-            }).then(function (response) {
-                //console.log(response);
-                console.log(queryURL);
+            var eventBriteQueryUrl = "https://www.eventbriteapi.com/v3/events/search/?token=" + token + "&q=" + otherKeywords + "&location.address=" + place + "&start_date.range_start=" + date1 + "&start_date.range_end=" + date2 + "&categories=" + eventType + "&price=" + price + "&expand=venue"; //added venue expansion
 
+            //////////////// Adding Eventbrite URL to DB
+            db.ref(datarefURLs).child("Event_queryURL").set(eventBriteQueryUrl);
 
-                for (let i = 0; i < response.events.length; i++) {
-                    var event = response.events[i];
+            ////////////// Set status = 1 and go to results page
+            db.ref(datarefURLs + "/status").set(1);
 
-                    var eventName = event.name.html
-                    var eventUrl = event.url;
-                    var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
-                    var venueName = event.venue.name;
-                    var venueCity = event.venue.address.city;
-
-                    var spaces = "&nbsp;&nbsp;"
-
-                    //console.log(eventName);
-                    //console.log(eventUrl);
-                    //console.log(eventTime);
-                    //console.log(venueName);
-                    //console.log(venueCity);
-
-                    // BELOW IS AN EXAMPLE FOR RESULTS PAGE
-                    // var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
-                    // console.log(eventListing);
-
-                    // $("--REPLACE WITH EVENTS RESULTS DIV OR SECTION ID--"").append(eventListing);
-                }
-            })
+            ////////////// Navigate away - to results page.
+            window.location.href = "resultPage.html?connkey=" + getUrlParameter('connkey') + "&userid=" + getUrlParameter('userid') + "&friendid=" + getUrlParameter('friendid');
         }
     });
 });
