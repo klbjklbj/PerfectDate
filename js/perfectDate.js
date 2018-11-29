@@ -10,6 +10,7 @@ var config = {
 firebase.initializeApp(config);
 var db = firebase.database();
 
+// Get parameters from URLs to know which user is completing the form
 var getUrlParameter = function getUrlParameter(sParam) {
     var sPageURL = window.location.search.substring(1),
         sURLVariables = sPageURL.split('&'),
@@ -75,6 +76,7 @@ $("#foodPlace").change(function () {
 var place = "";
 var date = "";
 
+// Pull "place" and "date" from database
 window.onload = function () {
     db.ref(dataref + "/location").once("value", function (snapshot) {
         place = snapshot.val();
@@ -91,23 +93,25 @@ $(document).ready(function () {
         event.preventDefault();
 
         // Google places API call
-        if ($("#foodPlace").val() === "selectOne") {
+        if ($("#foodPlace").val() === "selectOne" || $("#eventType").val() === "") {
             event.preventDefault();
         }
 
-        else if ($("#foodPlace").val() === "restaurant") {
+        else if ($("#foodPlace").val() === "restaurant" && $("#restaurant").val() !== "") {
             event.preventDefault();
 
             var query = $("#foodPlace").val() + " " + $("#restaurant").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
             var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
             var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
+            // push querryURL to Firebase
 
             $.ajax({
                 url: queryURL,
                 method: "GET",
             }).then(function (response) {
                 console.log(queryURL);
-                // push querryURL to Firebase
+
+
             })
         }
         else if ($(".submitSelection").val() === "other") {
@@ -116,14 +120,14 @@ $(document).ready(function () {
             var query = $("#otherFoodPlace").val() + " " + "in " + place;
             var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
             var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
-
+            // push querryURL to Firebase
 
             $.ajax({
                 url: queryURL,
                 method: "GET",
             }).then(function (response) {
                 console.log(queryURL);
-                // push querryURL to Firebase
+
             });
         }
         else {
@@ -132,67 +136,61 @@ $(document).ready(function () {
             var query = $("#foodPlace").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
             var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
             var queryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
-
+            // push queryURL to Firebase
 
             $.ajax({
                 url: queryURL,
                 method: "GET",
             }).then(function (response) {
-                console.log(queryURL);
-                // push queryURL to Firebase
+                //console.log(queryURL);               
             });
         };
 
         // Eventbrite API call
-        event.preventDefault();
-
-        // replace with FB
+        var eventType = $("#eventType").val();
+        //  results for price are either "free" or "paid"...looks like we can't do price range or else it could limit options unnecessarily
+        var price = $("input[name=inlineRadioOptions]:checked").val();
+        var otherKeywords = $("#otherKeywords").val(); //otherKeywords is a string for the "q" parameter
         var date1 = date + "T00:00:00";
         var date2 = date + "T23:59:59";
-
         var token = '5E76NLXTIQ7IVJFI3SNJ'; //Eventbrite API Key
 
-        var eventType = $("#eventType").val();
+        if (eventType !== "" && $("#foodPlace").val() !== "selectOne") {
+            var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=" + token + "&q=" + otherKeywords + "&location.address=" + place + "&start_date.range_start=" + date1 + "&start_date.range_end=" + date2 + "&categories=" + eventType + "&price=" + price + "&expand=venue"; //added venue expansion
+            // push queryURL to Firebase
+            $.ajax({
+                url: queryURL,
+                method: "GET",
+            }).then(function (response) {
+                //console.log(response);
+                console.log(queryURL);
 
-        var otherKeywords = $("#otherKeywords").val(); //otherKeywords is a string for the "q" parameter
 
-        var price = $("input[name=inlineRadioOptions]:checked").val();
-        //  results for price are either "free" or "paid"...looks like we can't do price range or else it could limit options unnecessarily
+                for (let i = 0; i < response.events.length; i++) {
+                    var event = response.events[i];
 
-        var queryURL = "https://www.eventbriteapi.com/v3/events/search/?token=" + token + "&q=" + otherKeywords + "&location.address=" + place + "&start_date.range_start=" + date1 + "&start_date.range_end=" + date2 + "&categories=" + eventType + "&price=" + price + "&expand=venue"; //added venue expansion
+                    var eventName = event.name.html
+                    var eventUrl = event.url;
+                    var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
+                    var venueName = event.venue.name;
+                    var venueCity = event.venue.address.city;
 
-        $.ajax({
-            url: queryURL,
-            method: "GET",
-        }).then(function (response) {
-            console.log(response);
-            console.log(queryURL);
-            // push queryURL 
+                    var spaces = "&nbsp;&nbsp;"
 
-            for (let i = 0; i < response.events.length; i++) {
-                var event = response.events[i];
+                    //console.log(eventName);
+                    //console.log(eventUrl);
+                    //console.log(eventTime);
+                    //console.log(venueName);
+                    //console.log(venueCity);
 
-                var eventName = event.name.html
-                var eventUrl = event.url;
-                var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
-                var venueName = event.venue.name;
-                var venueCity = event.venue.address.city;
+                    // BELOW IS AN EXAMPLE FOR RESULTS PAGE
+                    // var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
+                    // console.log(eventListing);
 
-                var spaces = "&nbsp;&nbsp;"
-
-                console.log(eventName);
-                console.log(eventUrl);
-                console.log(eventTime);
-                console.log(venueName);
-                console.log(venueCity);
-
-                // BELOW IS AN EXAMPLE FOR RESULTS PAGE
-                // var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
-                // console.log(eventListing);
-
-                // $("--REPLACE WITH EVENTS RESULTS DIV OR SECTION ID--"").append(eventListing);
-            }
-        })
+                    // $("--REPLACE WITH EVENTS RESULTS DIV OR SECTION ID--"").append(eventListing);
+                }
+            })
+        }
     });
 });
 
