@@ -65,9 +65,9 @@ window.onload = function () {
         }
         else {
             ///////////// message that have no response from friend yet
-            alert("Your friend is not decided yet");
-
-            // TODO !!!!!!!!!
+            $("#messageOutput").attr("style", "text-align: center")
+            $("#messageOutput").text("Your friend has not responded yet");
+            $("#messageRow").css({display: "block"});
         }
     });
 }
