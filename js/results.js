@@ -6,9 +6,9 @@ var config = {
     projectId: "perfect-date-b7ea3",
     storageBucket: "perfect-date-b7ea3.appspot.com",
     messagingSenderId: "852010734268"
-};
-
+    };
 firebase.initializeApp(config);
+
 var db = firebase.database();
 
 var queryURLs = {
@@ -38,12 +38,11 @@ var datarefUser = "couples/" + getUrlParameter('connkey') + "/" + getUrlParamete
 window.onload = function () {
     ////////////////// check if our partner has selected the preferences
     db.ref(datarefFriend + "/status").once("value", function (snapshot) {
-        if( snapshot.val() === 1 )
-        {
+        if (snapshot.val() === 1) {
             ////////////////// get restaurants query URLs
-            db.ref(datarefUser + "/Restaurant_queryURL").once("value", function (snapshot){
+            db.ref(datarefUser + "/Restaurant_queryURL").once("value", function (snapshot) {
                 queryURLs.userRestaurant = snapshot.val();
-                db.ref(datarefFriend + "/Restaurant_queryURL").once("value", function (snapshot){
+                db.ref(datarefFriend + "/Restaurant_queryURL").once("value", function (snapshot) {
                     queryURLs.friendRestaurant = snapshot.val();
 
                     ////////////////// now we load restaurants data
@@ -52,19 +51,18 @@ window.onload = function () {
             });
 
             ////////////////// get events query URLs
-            db.ref(datarefUser + "/Event_queryURL").once("value", function (snapshot){
+            db.ref(datarefUser + "/Event_queryURL").once("value", function (snapshot) {
                 queryURLs.userEvent = snapshot.val();
 
-                db.ref(datarefFriend + "/Event_queryURL").once("value", function (snapshot){
+                db.ref(datarefFriend + "/Event_queryURL").once("value", function (snapshot) {
                     queryURLs.friendEvent = snapshot.val();
-    
+
                     ////////////////// now we load events data
                     ImportEventsData();
                 });
             });
         }
-        else
-        {
+        else {
             ///////////// message that have no response from friend yet
             alert("Your friend is not decided yet");
 
@@ -72,7 +70,7 @@ window.onload = function () {
         }
     });
 }
-
+/*
 function ImportRestaurantsData(){
     $.ajax({
         url: queryURLs.userRestaurant,
@@ -91,8 +89,36 @@ function ImportRestaurantsData(){
         });
     });
 }
+*/
 
-function ImportEventsData(){
+function ImportRestaurantsData() {
+    var service;
+    var request = {
+        query: queryURLs.friendRestaurant
+    };
+    service = new google.maps.places.PlacesService($("#otherRestaurants").get(0));
+    service.textSearch(request, callback);
+    function callback(userResponse, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            console.log(userResponse);
+            var service;
+            var request = {
+                query: queryURLs.friendRestaurant
+            };
+            service = new google.maps.places.PlacesService($("#otherRestaurants").get(0));
+            service.textSearch(request, callback);
+            function callback(friendResponse, status) {
+                if (status == google.maps.places.PlacesServiceStatus.OK) {
+                    console.log(friendResponse);
+                    ///////////// Find matching restaurants
+                    OutputRestaurantsData(userResponse, friendResponse);
+                }
+            }
+        }
+    }
+}
+
+function ImportEventsData() {
     $.ajax({
         url: queryURLs.userEvent,
         method: "GET",
@@ -160,10 +186,12 @@ function ImportEventsData(){
     });
 }
 
-function OutputRestaurantsData(userRestaurants, friendRestaurants){
+function OutputRestaurantsData(userRestaurants, friendRestaurants) {
     // TODO !!!!!!!
+    //for (var i = 0; i < results.length; i++) {
+    //console.log(results[i].name, results[i].types)
 }
 
-function OutputEventsData(userEvents, friendEvents){
+function OutputEventsData(userEvents, friendEvents) {
     // TODO !!!!!!!
 }

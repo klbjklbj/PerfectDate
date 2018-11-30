@@ -8,6 +8,7 @@ var config = {
     messagingSenderId: "852010734268"
 };
 firebase.initializeApp(config);
+
 var db = firebase.database();
 
 // Get parameters from URLs to know which user is completing the form
@@ -89,17 +90,16 @@ window.onload = function () {
 
     ///////////// if Preferences are submited i.e. (status = 1) redirect to results page
     db.ref(datarefURLs + "/status").once("value", function (snapshot) {
-        if( snapshot.val() === 1 )
-        {
+        if (snapshot.val() === 1) {
             window.location.href = "resultPage.html?connkey=" + getUrlParameter('connkey') + "&userid=" + getUrlParameter('userid') + "&friendid=" + getUrlParameter('friendid');
         }
     });
-    
+
 }
 
 //Make an AJAX call to google API with user's input to receive Response
 $(document).ready(function () {
-     $(".submitSelection").on("click", function () {
+    $(".submitSelection").on("click", function () {
         event.preventDefault();
 
         // Google places API call
@@ -113,19 +113,17 @@ $(document).ready(function () {
         }
         else if ($(".submitSelection").val() === "other") {
             event.preventDefault();
-            //var place = localStorage.getItem(place)
             var query = $("#otherFoodPlace").val() + " " + "in " + place;
         }
         else {
             event.preventDefault();
-            //var place = localStorage.getItem("place")
             var query = $("#foodPlace").val() + " " + $("#otherFoodPlace").val() + " " + "in " + place;
         }
 
         //////////////// Adding Restaurant URL to DB
-        var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
-        var googleQueryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
-        db.ref(datarefURLs).child("Restaurant_queryURL").set(googleQueryURL);
+        //var API_KEY = "AIzaSyCWUcRBqODE7dNoFCKF4ZvP4EqNm5JbjsM";
+        //var googleQueryURL = "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" + query + "&key=" + API_KEY;
+        db.ref(datarefURLs).child("Restaurant_queryURL").set(query);
 
         // Eventbrite API call
         var eventType = $("#eventType").val();
