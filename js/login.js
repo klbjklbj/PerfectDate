@@ -1,5 +1,5 @@
 // Grab user input from Page one and save it in Firebase. 
-var config = {
+  var config = {
   apiKey: "AIzaSyDwU1FB_6fGRqgpaMrYv6enaYaB1rhX1PU",
   authDomain: "perfect-date-b7ea3.firebaseapp.com",
   databaseURL: "https://perfect-date-b7ea3.firebaseio.com",
@@ -8,7 +8,6 @@ var config = {
   messagingSenderId: "852010734268"
   };
   firebase.initializeApp(config);
-  
 
 
 var db = firebase.database();

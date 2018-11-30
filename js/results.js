@@ -8,7 +8,6 @@ var config = {
     messagingSenderId: "852010734268"
     };
     firebase.initializeApp(config);
-    
 
 var db = firebase.database();
 
@@ -35,6 +34,7 @@ var getUrlParameter = function getUrlParameter(sParam) {
 
 var datarefFriend = "couples/" + getUrlParameter('connkey') + "/" + getUrlParameter('friendid');
 var datarefUser = "couples/" + getUrlParameter('connkey') + "/" + getUrlParameter('userid');
+var placeResponse = {};
 
 window.onload = function () {
     ////////////////// check if our partner has selected the preferences
@@ -48,6 +48,7 @@ window.onload = function () {
 
                     ////////////////// now we load restaurants data
                     ImportRestaurantsData();
+                    //getDetails("ChIJN1t_tDeuEmsRUsoyG83frY4");
                 });
             });
 
@@ -71,50 +72,46 @@ window.onload = function () {
         }
     });
 }
-/*
-function ImportRestaurantsData(){
-    $.ajax({
-        url: queryURLs.userRestaurant,
-        method: "GET"
-    }).then(function (userResponse) {
-        console.log(userResponse);
-        
-        $.ajax({
-            url: queryURLs.friendRestaurant,
-            method: "GET"
-        }).then(function (friendResponse) {
-            console.log(friendResponse);
-            
-            ///////////// Find matching restaurants
-            OutputRestaurantsData(userResponse, friendResponse);
-        });
-    });
-}
-*/
 
 function ImportRestaurantsData() {
     var service;
     var request = {
         query: queryURLs.userRestaurant
     };
-    service = new google.maps.places.PlacesService($("#otherRestaurants").get(0));
+    service = new google.maps.places.PlacesService($("<div>").get(0));
     service.textSearch(request, callback);
     function callback(userResponse, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-            console.log(userResponse);
-            var service;
+
             var request = {
                 query: queryURLs.friendRestaurant
             };
-            service = new google.maps.places.PlacesService($("#otherRestaurants").get(0));
+            service = new google.maps.places.PlacesService($("<div>").get(0));
             service.textSearch(request, callback);
             function callback(friendResponse, status) {
                 if (status == google.maps.places.PlacesServiceStatus.OK) {
-                    console.log(friendResponse);
                     ///////////// Find matching restaurants
                     OutputRestaurantsData(userResponse, friendResponse);
                 }
             }
+        }
+    }
+}
+
+function getDetails(placeId) {
+    var service;
+    var request = {
+        placeId: placeId,
+        fields: ['website', 'url']
+    };
+    service = new google.maps.places.PlacesService($("<div>").get(0));
+    service.getDetails(request, callback);
+
+    function callback(place, status) {
+        if (status == google.maps.places.PlacesServiceStatus.OK) {
+            //console.log(place)
+            placeResponse = place;
+
         }
     }
 }
@@ -124,47 +121,100 @@ function ImportEventsData() {
         url: queryURLs.userEvent,
         method: "GET",
     }).then(function (userResponse) {
-        console.log(queryURLs.userEvent);
+        //console.log(userResponse.events);
+        var userResponse = userResponse.events;
         $.ajax({
             url: queryURLs.friendEvent,
             method: "GET",
         }).then(function (friendResponse) {
-            console.log(queryURLs.friendEvent);
-
+            //console.log(friendResponse.events);
+            var friendResponse = friendResponse.events;
             OutputEventsData(userResponse, friendResponse);
         });
     });
 }
 
-
-function OutputRestaurantsData(userRestaurants, friendRestaurants) {
-    // TODO !!!!!!!
-    //for (var i = 0; i < results.length; i++) {
-    //console.log(results[i].name, results[i].types)
+function OutputRestaurantsData(userResponse, friendResponse) {
+    var otherPlaces = [];
+    //console.log(userResponse);
+    //console.log(friendResponse);
+    for (var i = 0; i < userResponse.length; i++) {
+        var userPlaceId = userResponse[i].place_id;
+        var userPlace = userResponse[i];
+        for (var j = 0; j < friendResponse.length; j++) {
+            var friendPlaceId = friendResponse[j].place_id
+            var friendPlace = friendResponse[j];
+            if (userPlaceId === friendPlaceId) {
+                getDetails(userPlaceId);
+                console.log(userPlaceId)
+                var matchRestaurant = $("<div>");
+                var name = $("<h5>").text(userPlace.name).addClass("mb-0");
+                var rating = $("<a>").text("Rating: " + userPlace.rating);
+                var web = $("<a>").text("Web").attr("href", placeResponse.website);
+                var map = $("<a>").text("Map").attr("href", placeResponse.url);
+                matchRestaurant.append(name);
+                matchRestaurant.append(rating).append(" | ");
+                matchRestaurant.append(web).append(" | ");
+                matchRestaurant.append(map);
+                $("#bestMatchingRestaurant").append(matchRestaurant).append("<br>");
+            }
+            else {
+                if (!otherPlaces.includes(userPlace)) {
+                    otherPlaces.push(userPlace);
+                }
+                if (!otherPlaces.includes(friendPlace)) {
+                    otherPlaces.push(friendPlace);
+                }
+            }
+        }
+    }
+    console.log(otherPlaces);
+    for (var k = 0; k < otherPlaces.length; k++) {
+        getDetails(otherPlaces[k].place_id);
+        var otherRestaurant = $("<div>");
+        var name = $("<h5>").text(otherPlaces[k].name).addClass("mb-0");
+        var rating = $("<a>").text("Rating: " + otherPlaces[k].rating);
+        var web = $("<a>").text("Web").attr("href", placeResponse.website);
+        var map = $("<a>").text("Map").attr("href", placeResponse.url);
+        otherRestaurant.append(name);
+        otherRestaurant.append(rating).append(" | ");
+        otherRestaurant.append(web).append(" | ");
+        otherRestaurant.append(map);
+        $("#otherRestaurants").append(otherRestaurant).append("<br>")
+    }
 }
 
-function OutputEventsData(userEvents, friendEvents) {
-    // TODO !!!!!!!
+function OutputEventsData(userResponse, friendResponse) {
+    for (var i = 0; i < userResponse.length; i++) {
+        var userEvent = userResponse[i].id
+        for (var j = 0; j < friendResponse.length; j++) {
+            var friendEvent = friendResponse[j].id
+            if (userEvent === friendEvent) {
+                console.log(userEvent);
+
+                var eventName = friendResponse[j].name.html;
+                var eventUrl = friendResponse[j].url;
+                var eventTime = moment(friendResponse[j].start).format('M/D/YYYY');
+                var venueName = friendResponse[j].venue.name;
+                var venueCity = friendResponse[j].venue.address.city;
+
+                var spaces = "&nbsp;&nbsp;"
+
+                console.log(eventName);
+                console.log(eventUrl);
+                console.log(eventTime);
+                console.log(venueName);
+                console.log(venueCity);
+                
+
+                //BELOW IS AN EXAMPLE FOR RESULTS PAGE
+                var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
+                console.log(eventListing);
+
+                $("#bestMatchingEvent").append(eventListing);
+            }
+            else { console.log("no match") }
+        }
+    }
+    
 }
-        // for (let i = 0; i < response.events.length; i++) {
-            //     var event = response.events[i];
-
-            //     var eventName = event.name.html
-            //     var eventUrl = event.url;
-            //     var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
-            //     var venueName = event.venue.name;
-            //     var venueCity = event.venue.address.city;
-
-            //     var spaces = "&nbsp;&nbsp;"
-
-                //console.log(eventName);
-                //console.log(eventUrl);
-                //console.log(eventTime);
-                //console.log(venueName);
-                //console.log(venueCity);
-
-                // BELOW IS AN EXAMPLE FOR RESULTS PAGE
-                // var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
-                // console.log(eventListing);
-
-                // $("--REPLACE WITH EVENTS RESULTS DIV OR SECTION ID--"").append(eventListing);
