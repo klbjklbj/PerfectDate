@@ -7,7 +7,8 @@ var config = {
     storageBucket: "perfect-date-b7ea3.appspot.com",
     messagingSenderId: "852010734268"
     };
-firebase.initializeApp(config);
+    firebase.initializeApp(config);
+    
 
 var db = firebase.database();
 
@@ -94,7 +95,7 @@ function ImportRestaurantsData(){
 function ImportRestaurantsData() {
     var service;
     var request = {
-        query: queryURLs.friendRestaurant
+        query: queryURLs.userRestaurant
     };
     service = new google.maps.places.PlacesService($("#otherRestaurants").get(0));
     service.textSearch(request, callback);
@@ -124,49 +125,37 @@ function ImportEventsData() {
         method: "GET",
     }).then(function (userResponse) {
         console.log(queryURLs.userEvent);
-
-
-        for (let i = 0; i < response.events.length; i++) {
-            var event = response.events[i];
-
-            var eventName = event.name.html
-            var eventUrl = event.url;
-            var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
-            var venueName = event.venue.name;
-            var venueCity = event.venue.address.city;
-
-            var spaces = "&nbsp;&nbsp;"
-
-            //console.log(eventName);
-            //console.log(eventUrl);
-            //console.log(eventTime);
-            //console.log(venueName);
-            //console.log(venueCity);
-
-            // BELOW IS AN EXAMPLE FOR RESULTS PAGE
-            // var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
-            // console.log(eventListing);
-
-            // $("--REPLACE WITH EVENTS RESULTS DIV OR SECTION ID--"").append(eventListing);
-        }
-
         $.ajax({
             url: queryURLs.friendEvent,
             method: "GET",
         }).then(function (friendResponse) {
             console.log(queryURLs.friendEvent);
 
+            OutputEventsData(userResponse, friendResponse);
+        });
+    });
+}
 
-            for (let i = 0; i < response.events.length; i++) {
-                var event = response.events[i];
 
-                var eventName = event.name.html
-                var eventUrl = event.url;
-                var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
-                var venueName = event.venue.name;
-                var venueCity = event.venue.address.city;
+function OutputRestaurantsData(userRestaurants, friendRestaurants) {
+    // TODO !!!!!!!
+    //for (var i = 0; i < results.length; i++) {
+    //console.log(results[i].name, results[i].types)
+}
 
-                var spaces = "&nbsp;&nbsp;"
+function OutputEventsData(userEvents, friendEvents) {
+    // TODO !!!!!!!
+}
+        // for (let i = 0; i < response.events.length; i++) {
+            //     var event = response.events[i];
+
+            //     var eventName = event.name.html
+            //     var eventUrl = event.url;
+            //     var eventTime = moment(event.start.local).format('M/D/YYYY h:mm A');
+            //     var venueName = event.venue.name;
+            //     var venueCity = event.venue.address.city;
+
+            //     var spaces = "&nbsp;&nbsp;"
 
                 //console.log(eventName);
                 //console.log(eventUrl);
@@ -179,19 +168,3 @@ function ImportEventsData() {
                 // console.log(eventListing);
 
                 // $("--REPLACE WITH EVENTS RESULTS DIV OR SECTION ID--"").append(eventListing);
-            }
-
-            OutputEventsData(userResponse, friendResponse);
-        });
-    });
-}
-
-function OutputRestaurantsData(userRestaurants, friendRestaurants) {
-    // TODO !!!!!!!
-    //for (var i = 0; i < results.length; i++) {
-    //console.log(results[i].name, results[i].types)
-}
-
-function OutputEventsData(userEvents, friendEvents) {
-    // TODO !!!!!!!
-}
