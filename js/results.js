@@ -6,8 +6,8 @@ var config = {
     projectId: "perfect-date-b7ea3",
     storageBucket: "perfect-date-b7ea3.appspot.com",
     messagingSenderId: "852010734268"
-    };
-    firebase.initializeApp(config);
+};
+firebase.initializeApp(config);
 
 var db = firebase.database();
 
@@ -68,7 +68,7 @@ window.onload = function () {
             ///////////// message that have no response from friend yet
             $("#messageOutput").attr("style", "text-align: center")
             $("#messageOutput").text("Your friend has not responded yet");
-            $("#messageRow").css({display: "block"});
+            $("#messageRow").css({ display: "block" });
         }
     });
 }
@@ -185,7 +185,7 @@ function OutputRestaurantsData(userResponse, friendResponse) {
     // show matching options
     else {
         for (var l = 0; l < matchingPlaces.length; l++) {
-            getDetails(matchingPlaces[l].placeId);
+            //getDetails(matchingPlaces[l].placeId);
             //console.log(placeResponse);
             var matchRestaurant = $("<div>");
             var name = $("<h5>").text(matchingPlaces[l].name).addClass("mb-0");
@@ -201,7 +201,7 @@ function OutputRestaurantsData(userResponse, friendResponse) {
     }
     // show other options
     for (var k = 0; k < otherPlaces.length; k++) {
-        getDetails(otherPlaces[k].place_id);
+        //getDetails(otherPlaces[k].place_id);
         var otherRestaurant = $("<div>");
         var name = $("<h5>").text(otherPlaces[k].name).addClass("mb-0");
         var rating = $("<a>").text("Rating: " + otherPlaces[k].rating);
