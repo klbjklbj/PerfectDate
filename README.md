@@ -18,4 +18,4 @@ Currently in development:
   - Send email to first user as well with the link of his result page
   - Add mobile responsive
 
-https://www.vaheminasyan2.github.io/Project1/
+https://vaheminasyan2.github.io/Project1/
