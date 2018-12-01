@@ -67,7 +67,7 @@ window.onload = function () {
         else {
             ///////////// message that have no response from friend yet
             $("#messageOutput").attr("style", "text-align: center")
-            $("#messageOutput").text("Your friend has not responded yet");
+            $("#messageOutput").text("Your friend has not responded yet").addClass("text-primary");
             $("#messageRow").css({ display: "block" });
         }
     });
@@ -219,6 +219,9 @@ function OutputEventsData(userResponse, friendResponse) {
     var otherEvents = [];
     var matchingEvents = [];
 
+    //console.log(userResponse);
+    //console.log(friendResponse);
+
     for (var i = 0; i < userResponse.length; i++) {
         var userEventId = userResponse[i].id;
         var userEvent = userResponse[i];
@@ -227,11 +230,11 @@ function OutputEventsData(userResponse, friendResponse) {
             if (userEventId === friendEventId) {
                 if (!matchingEvents.includes(userEvent)) {
                     matchingEvents.push(userEvent);
-                    // console.log(matchingEvents);
                 }
             }
         }
     }
+
     // console.log(userResponse);
     // remove matching options from userResponse
     for (var i = 0; i < matchingEvents.length; i++) {
@@ -243,6 +246,7 @@ function OutputEventsData(userResponse, friendResponse) {
         }
     }
 
+    // console.log(friendResponse);
     // remove matching options from friendResponse
     for (var i = 0; i < matchingEvents.length; i++) {
         for (var j = 0; j < friendResponse.length; j++) {
@@ -267,8 +271,9 @@ function OutputEventsData(userResponse, friendResponse) {
         var name = $("<h5>").text("No matches found");
         $("#bestMatchingEvent").append(name).append("<br>");
     }
-
+    
     // show matching options
+
     else {
         for (var l = 0; l < matchingEvents.length; l++) {
             var matchEvent = $("<div>");
@@ -282,7 +287,9 @@ function OutputEventsData(userResponse, friendResponse) {
 
             $("#bestMatchingEvent").append(matchEvent).append("<br>");
         }
+    }
         // show other options
+        
         for (var k = 0; k < otherEvents.length; k++) {
             var otherEvent = $("<div>");
             var name = $("<h5>").text(otherEvents[k].name.html).addClass("mb-0");
@@ -295,5 +302,4 @@ function OutputEventsData(userResponse, friendResponse) {
 
             $("#otherEvents").append(otherEvent).append("<br>");
         }
-    }
 }
