@@ -6,8 +6,8 @@ var config = {
     projectId: "perfect-date-b7ea3",
     storageBucket: "perfect-date-b7ea3.appspot.com",
     messagingSenderId: "852010734268"
-};
-firebase.initializeApp(config);
+    };
+    firebase.initializeApp(config);
 
 var db = firebase.database();
 
@@ -136,39 +136,71 @@ function ImportEventsData() {
 
 function OutputRestaurantsData(userResponse, friendResponse) {
     var otherPlaces = [];
-    //console.log(userResponse);
-    //console.log(friendResponse);
+    var matchingPlaces = [];
+
     for (var i = 0; i < userResponse.length; i++) {
         var userPlaceId = userResponse[i].place_id;
         var userPlace = userResponse[i];
         for (var j = 0; j < friendResponse.length; j++) {
             var friendPlaceId = friendResponse[j].place_id
-            var friendPlace = friendResponse[j];
             if (userPlaceId === friendPlaceId) {
-                getDetails(userPlaceId);
-                console.log(userPlaceId)
-                var matchRestaurant = $("<div>");
-                var name = $("<h5>").text(userPlace.name).addClass("mb-0");
-                var rating = $("<a>").text("Rating: " + userPlace.rating);
-                var web = $("<a>").text("Web").attr("href", placeResponse.website);
-                var map = $("<a>").text("Map").attr("href", placeResponse.url);
-                matchRestaurant.append(name);
-                matchRestaurant.append(rating).append(" | ");
-                matchRestaurant.append(web).append(" | ");
-                matchRestaurant.append(map);
-                $("#bestMatchingRestaurant").append(matchRestaurant).append("<br>");
-            }
-            else {
-                if (!otherPlaces.includes(userPlace)) {
-                    otherPlaces.push(userPlace);
-                }
-                if (!otherPlaces.includes(friendPlace)) {
-                    otherPlaces.push(friendPlace);
+                if (!matchingPlaces.includes(userPlace)) {
+                    matchingPlaces.push(userPlace);
                 }
             }
         }
     }
-    console.log(otherPlaces);
+
+    // remove matching options from userResponse
+    for (var i = 0; i < matchingPlaces.length; i++) {
+        for (var j = 0; j < userResponse.length; j++) {
+            if (matchingPlaces[i].place_id === userResponse[j].place_id) {
+                userResponse.splice(j, 1)
+            }
+        }
+    }
+
+    // remove matching options from friendResponse
+    for (var i = 0; i < matchingPlaces.length; i++) {
+        for (var j = 0; j < friendResponse.length; j++) {
+            if (matchingPlaces[i].place_id === friendResponse[j].place_id) {
+                friendResponse.splice(j, 1)
+            }
+        }
+    }
+
+
+    // push userResponse to otherPlaces
+    for (var i = 0; i < userResponse.length; i++) {
+        otherPlaces.push(userResponse[i])
+    }
+
+    // push freindResponse to otherPlaces
+    for (var i = 0; i < friendResponse.length; i++) {
+        otherPlaces.push(friendResponse[i])
+    }
+
+    // if no matching options show message "No matches found"
+    if (matchingPlaces == "") {
+        var name = $("<h5>").text("No matches found");
+        $("#bestMatchingRestaurant").append(name).append("<br>");
+    }
+    // show matching options
+    else {
+        for (var l = 0; l < matchingPlaces.length; l++) {
+            var matchRestaurant = $("<div>");
+            var name = $("<h5>").text(matchingPlaces[l].name).addClass("mb-0");
+            var rating = $("<a>").text("Rating: " + matchingPlaces[l].rating);
+            var web = $("<a>").text("Web").attr("href", placeResponse.website);
+            var map = $("<a>").text("Map").attr("href", placeResponse.url);
+            matchRestaurant.append(name);
+            matchRestaurant.append(rating).append(" | ");
+            matchRestaurant.append(web).append(" | ");
+            matchRestaurant.append(map);
+            $("#bestMatchingRestaurant").append(matchRestaurant).append("<br>");
+        }
+    }
+    // show other options
     for (var k = 0; k < otherPlaces.length; k++) {
         getDetails(otherPlaces[k].place_id);
         var otherRestaurant = $("<div>");
@@ -190,7 +222,7 @@ function OutputEventsData(userResponse, friendResponse) {
         for (var j = 0; j < friendResponse.length; j++) {
             var friendEvent = friendResponse[j].id
             if (userEvent === friendEvent) {
-                console.log(userEvent);
+                //console.log(userEvent);
 
                 var eventName = friendResponse[j].name.html;
                 var eventUrl = friendResponse[j].url;
@@ -200,21 +232,21 @@ function OutputEventsData(userResponse, friendResponse) {
 
                 var spaces = "&nbsp;&nbsp;"
 
-                console.log(eventName);
-                console.log(eventUrl);
-                console.log(eventTime);
-                console.log(venueName);
-                console.log(venueCity);
-                
+                //console.log(eventName);
+                //console.log(eventUrl);
+                //console.log(eventTime);
+                //console.log(venueName);
+                //console.log(venueCity);
+
 
                 //BELOW IS AN EXAMPLE FOR RESULTS PAGE
                 var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
-                console.log(eventListing);
+                //console.log(eventListing);
 
                 $("#bestMatchingEvent").append(eventListing);
             }
             else { console.log("no match") }
         }
     }
-    
+
 }

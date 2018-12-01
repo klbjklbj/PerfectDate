@@ -6,8 +6,8 @@ var config = {
   projectId: "perfect-date-b7ea3",
   storageBucket: "perfect-date-b7ea3.appspot.com",
   messagingSenderId: "852010734268"
-};
-firebase.initializeApp(config);
+  };
+  firebase.initializeApp(config);
 
 var db = firebase.database();
 
