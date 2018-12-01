@@ -1,0 +1,13 @@
+body {
+    /* background-image:url(../assets/background2.jpg); */
+    
+    background-blend-mode: screen;    
+    background-color:lightblue;
+    background-size: cover; 
+    height: 100%;
+}
+.text-center {
+    font-family: 'Courgette', cursive;
+    font-style: bold;
+    font-size: 50px;
+}

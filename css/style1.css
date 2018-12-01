@@ -1,0 +1,26 @@
+body {
+    background-image:url(../assets/background3.jpg);
+    background-blend-mode: screen;    
+    background-color:lightgray;
+    background-size: cover; 
+    /* height: 100%; */
+}
+.text-center {
+    font-family: 'Courgette', cursive;
+    font-style: bold;
+    font-size: 50px;
+}
+#headache {
+    background-image:url(../assets/2.jpg);
+    background-size: cover; 
+    height: 520px;
+    width: 320px;
+    margin-left: 80px;
+    margin-top: 30px;
+}
+#www {
+font-size: 30px;
+font-family: 'Gochi Hand', cursive;
+margin-left: 5px;
+text-align: center;
+}
