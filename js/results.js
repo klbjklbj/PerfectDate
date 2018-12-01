@@ -109,9 +109,7 @@ function getDetails(placeId) {
 
     function callback(place, status) {
         if (status == google.maps.places.PlacesServiceStatus.OK) {
-            //console.log(place)
             placeResponse = place;
-
         }
     }
 }
@@ -169,7 +167,6 @@ function OutputRestaurantsData(userResponse, friendResponse) {
         }
     }
 
-
     // push userResponse to otherPlaces
     for (var i = 0; i < userResponse.length; i++) {
         otherPlaces.push(userResponse[i])
@@ -188,6 +185,8 @@ function OutputRestaurantsData(userResponse, friendResponse) {
     // show matching options
     else {
         for (var l = 0; l < matchingPlaces.length; l++) {
+            getDetails(matchingPlaces[l].placeId);
+            //console.log(placeResponse);
             var matchRestaurant = $("<div>");
             var name = $("<h5>").text(matchingPlaces[l].name).addClass("mb-0");
             var rating = $("<a>").text("Rating: " + matchingPlaces[l].rating);
@@ -217,36 +216,84 @@ function OutputRestaurantsData(userResponse, friendResponse) {
 }
 
 function OutputEventsData(userResponse, friendResponse) {
+    var otherEvents = [];
+    var matchingEvents = [];
+
     for (var i = 0; i < userResponse.length; i++) {
-        var userEvent = userResponse[i].id
+        var userEventId = userResponse[i].id;
+        var userEvent = userResponse[i];
         for (var j = 0; j < friendResponse.length; j++) {
-            var friendEvent = friendResponse[j].id
-            if (userEvent === friendEvent) {
-                //console.log(userEvent);
-
-                var eventName = friendResponse[j].name.html;
-                var eventUrl = friendResponse[j].url;
-                var eventTime = moment(friendResponse[j].start).format('M/D/YYYY');
-                var venueName = friendResponse[j].venue.name;
-                var venueCity = friendResponse[j].venue.address.city;
-
-                var spaces = "&nbsp;&nbsp;"
-
-                //console.log(eventName);
-                //console.log(eventUrl);
-                //console.log(eventTime);
-                //console.log(venueName);
-                //console.log(venueCity);
-
-
-                //BELOW IS AN EXAMPLE FOR RESULTS PAGE
-                var eventListing = "<li>" + eventTime + spaces + "<a href='" + eventUrl + "'>" + eventName + "</a>" + spaces + venueName + " - " + venueCity + "</li>";
-                //console.log(eventListing);
-
-                $("#bestMatchingEvent").append(eventListing);
+            var friendEventId = friendResponse[j].id
+            if (userEventId === friendEventId) {
+                if (!matchingEvents.includes(userEvent)) {
+                    matchingEvents.push(userEvent);
+                    // console.log(matchingEvents);
+                }
             }
-            else { console.log("no match") }
+        }
+    }
+    // console.log(userResponse);
+    // remove matching options from userResponse
+    for (var i = 0; i < matchingEvents.length; i++) {
+        for (var j = 0; j < userResponse.length; j++) {
+            if (matchingEvents[i].id === userResponse[j].id) {
+                userResponse.splice(j, 1)
+                //console.log(userResponse);
+            }
         }
     }
 
+    // remove matching options from friendResponse
+    for (var i = 0; i < matchingEvents.length; i++) {
+        for (var j = 0; j < friendResponse.length; j++) {
+            if (matchingEvents[i].id === friendResponse[j].id) {
+                friendResponse.splice(j, 1)
+            }
+        }
+    }
+
+    // push userResponse to otherPlaces
+    for (var i = 0; i < userResponse.length; i++) {
+        otherEvents.push(userResponse[i])
+    }
+
+    // push freindResponse to otherPlaces
+    for (var i = 0; i < friendResponse.length; i++) {
+        otherEvents.push(friendResponse[i])
+    }
+
+    // if no matching options show message "No matches found"
+    if (matchingEvents == "") {
+        var name = $("<h5>").text("No matches found");
+        $("#bestMatchingEvent").append(name).append("<br>");
+    }
+
+    // show matching options
+    else {
+        for (var l = 0; l < matchingEvents.length; l++) {
+            var matchEvent = $("<div>");
+            var name = $("<h5>").text(matchingEvents[l].name.html).addClass("mb-0");
+            var date = $("<a>").text("Date: " + moment(matchingEvents[l].start).format('M/D/YYYY'));
+            var web = $("<a>").text("Web").attr("href", matchingEvents[l].url).attr("target", "_blank");
+
+            matchEvent.append(name);
+            matchEvent.append(date).append(" | ");
+            matchEvent.append(web);
+
+            $("#bestMatchingEvent").append(matchEvent).append("<br>");
+        }
+        // show other options
+        for (var k = 0; k < otherEvents.length; k++) {
+            var otherEvent = $("<div>");
+            var name = $("<h5>").text(otherEvents[k].name.html).addClass("mb-0");
+            var date = $("<a>").text("Date: " + moment(otherEvents[k].start).format('M/D/YYYY'));
+            var web = $("<a>").text("Web").attr("href", otherEvents[k].url).attr("target", "_blank");
+
+            otherEvent.append(name);
+            otherEvent.append(date).append(" | ");
+            otherEvent.append(web);
+
+            $("#otherEvents").append(otherEvent).append("<br>");
+        }
+    }
 }
