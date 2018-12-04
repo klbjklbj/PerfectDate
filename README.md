@@ -17,5 +17,7 @@ Currently in development:
   - Add auto reload of result page
   - Send email to first user as well with the link of his result page
   - Add mobile responsive
+  - Replace EventBrite with other API with more event database
+  - Replace Google Place API with Yelp or FourSquare API
 
 https://vaheminasyan2.github.io/Project1/
