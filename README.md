@@ -10,7 +10,7 @@ This app utilizes Eventbrite API to find events and Google Places API to find re
 ![Homepage](images/homepage.PNG)
 
 **Email Template**
-![Email](images/imail.PNG)
+![Email](images/email.PNG)
 
 **Preferences Page**
 ![Homepage](images/choicepage.PNG)
