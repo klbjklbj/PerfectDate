@@ -6,6 +6,17 @@ This app utilizes Eventbrite API to find events and Google Places API to find re
 
 [**Git it a try!**](https://vaheminasyan2.github.io/The-Perfect-Date-App/)
 
+**Home Page**
+![Homepage](images/homepage.PNG)
+
+**Email Template**
+![Email](images/imail.PNG)
+
+**Preferences Page**
+![Homepage](images/choicepage.PNG)
+
+**Result Page**
+![Resultpage](images/resultpage.PNG)
 
 
 ## How to improve
