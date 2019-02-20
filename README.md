@@ -18,6 +18,17 @@ This app utilizes Eventbrite API to find events and Google Places API to find re
 **Result Page**
 ![Resultpage](images/resultpage.PNG)
 
+### Technology used:
+* JavaScript
+* jQuery
+* Bootstrap
+* HTML
+* CSS
+* AJAX
+* Eventbrite API
+* Google Places API
+* Firebase
+* Email.js.
 
 ## How to improve
 Currently app is using place and event ids to check for matches. In future this will be improved by adding more sophisticated logic. Also 
