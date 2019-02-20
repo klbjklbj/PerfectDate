@@ -4,7 +4,7 @@ Use this app to find restaurants and events that will take your and your date pr
 ## How it works
 This app utilizes Eventbrite API to find events and Google Places API to find restaurants. The database is set up in Firebase allowing two users interact with the app within their own sessions. The app uses EmailJS to send an email invite to the second person prompting to complete a form with their preferences. Only after both parties complete the form with their preferences the app will return result. On the result page user will see mathcing options for both restaurants and events if there were any or it'll say "No matches found". All other options will be listed in "Other options" section. 
 
-[**Git it a try!**](https://vaheminasyan2.github.io/The-Perfect-Date-App/)
+[**Give it a try!**](https://vaheminasyan2.github.io/The-Perfect-Date-App/)
 
 **Home Page**
 ![Homepage](images/homepage.PNG)
